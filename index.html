@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>استبيان الاحتراق</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f6f4;--card:#fff;--ink:#1d2b27;--mute:#5d6f69;--line:#d5dfdb;--accent:#1f6f5c;--accent-ink:#fff;--sel:#dff0ea;--warn:#fff4e0;--warnink:#7a4b00;
+--c1:#4fa58a;--c2:#e2b643;--c3:#e08a3c;--c4:#c8503f;--c5:#8e2f5a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#111a17;--card:#1a2622;--ink:#e6efeb;--mute:#9bb0a9;--line:#2c3b36;--accent:#5fc0a5;--accent-ink:#0d1a16;--sel:#244339;--warn:#3a2f17;--warnink:#f1d49a}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#111a17;--card:#1a2622;--ink:#e6efeb;--mute:#9bb0a9;--line:#2c3b36;--accent:#5fc0a5;--accent-ink:#0d1a16;--sel:#244339;--warn:#3a2f17;--warnink:#f1d49a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Cairo',Tahoma,Arial,sans-serif;line-height:1.7}
+main{max-width:720px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:1.6rem;font-weight:800;margin:8px 0 6px;line-height:1.3}
+h2{font-size:1.1rem;font-weight:800;margin:20px 0 8px}
+p{margin:0 0 10px}
+.mute{color:var(--mute);font-size:.92rem}
+.note{background:var(--warn);color:var(--warnink);padding:10px 14px;border-radius:10px;font-size:.92rem}
+.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.q.missing{border-color:var(--c4);box-shadow:0 0 0 2px var(--c4)}
+.q .t{font-weight:600;margin-bottom:8px}
+.opts{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.opts label{display:flex;align-items:center;justify-content:center;text-align:center;border:1px solid var(--line);border-radius:8px;padding:8px 4px;font-size:.85rem;line-height:1.3;cursor:pointer;min-height:48px}
+.opts input{position:absolute;opacity:0;pointer-events:none}
+.opts label:has(input:checked){background:var(--sel);border-color:var(--accent);font-weight:600}
+.opts label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:520px){.opts{grid-template-columns:1fr}.opts label{justify-content:flex-start;padding:10px 12px;font-size:.9rem;min-height:44px}}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;z-index:5}
+.track{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.fill{height:100%;width:0;background:var(--accent);transition:width .25s}
+button{font:inherit;font-weight:700;background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:12px 26px;cursor:pointer}
+button.alt{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.err{color:var(--c4);font-weight:600;margin:10px 0 0;min-height:1.5em}
+.res{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-weight:600}
+.num{font-size:1.6rem;font-weight:800}
+.meter{height:14px;border-radius:7px;background:linear-gradient(to left,var(--c1) 0 2.5%,var(--c2) 2.5% 26.7%,var(--c3) 26.7% 37.5%,var(--c4) 37.5% 50%,var(--c5) 50% 100%);position:relative;margin:10px 0 10px}
+.meter i{position:absolute;top:-5px;width:6px;height:24px;background:var(--ink);border-radius:3px;transform:translateX(50%);border:2px solid var(--card)}
+.lv{font-weight:800;font-size:1.1rem;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+td{padding:6px 8px;border-bottom:1px solid var(--line)}
+tr.on td{background:var(--sel);font-weight:700}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<section id="intro">
+<h1>استبيان الاحتراق</h1>
+<p><b>التعليمات:</b> جاوب على كل عبارة وفكّر في نفسك. اختار الرقم اللي بيعبّر بصدق عن عدد المرات اللي حسّيت فيها بالحاجة دي في <b>آخر 60 يوم</b>. لازم تجاوب على كل الأسئلة.</p>
+<p>الاختيارات: 1 = أبدًا، 2 = نادرًا، 3 = أحيانًا، 4 = غالبًا، 5 = غالبًا جدًا. وعدد الأسئلة 30 وبتاخد حوالي 5 دقايق.</p>
+<p class="note">الاستبيان ده للتوعية والتأمل الذاتي، مش تشخيص طبي ولا نفسي، ومش بديل عن متخصص. بعض العبارات ممكن تفكّرك بحاجات صعبة، ولو حسّيت بضيق في أي وقت خد استراحة.</p>
+<p class="mute">إجاباتك بتتحسب جوه الصفحة دي بس، ومش بتتبعت ولا بتتحفظ في أي مكان. الاستبيان أنشأته NASTAD.</p>
+</section>
+
+<div class="bar"><div class="track"><div class="fill" id="fill"></div></div><div class="mute" id="cnt" dir="ltr" style="text-align:right">0 / 30</div></div>
+<form id="f" onsubmit="return false"></form>
+<p class="err" id="err" role="alert"></p>
+<button id="go">اعرض نتيجتي</button>
+
+<section id="out" hidden>
+<h1>نتيجتك</h1>
+<div class="res">
+<div class="row"><span>مجموع درجاتك</span><span class="num" id="tot"></span></div>
+<div class="meter"><i id="mk"></i></div>
+<div class="lv" id="lv"></div>
+<p id="adv"></p>
+</div>
+<p class="note" id="care" hidden></p>
+<h2>معنى الدرجات</h2>
+<table id="tb"></table>
+<p class="note" style="margin-top:14px">النتيجة دي إشارة للتأمل الذاتي وليست تشخيصًا. لو الأعراض بتأثر على حياتك اليومية أو حاسس بضيق مستمر، الأفضل تكلّم متخصص نفسي أو طبيب. ولو في أي وقت جالك إحساس بإنك عايز تأذي نفسك، كلّم حد موثوق أو متخصص النهارده.</p>
+<p style="margin-top:16px"><button class="alt" id="again">ابدأ الاستبيان من الأول</button></p>
+</section>
+</main>
+<script>
+var OP=["أبدًا","نادرًا","أحيانًا","غالبًا","غالبًا جدًا"];
+var Q=["بحس بإرهاق من مجرد فكرة الذهاب للشغل كل يوم.","بحس بإرهاق من أول ما بصحى.","مش بقدر أبطّل أفكر في موقف معين اشتغلت عليه.","دافعي للشغل قليل.","بلاقي صعوبة إني ما أفكرش في الشغل وأنا في البيت.","بتضايق بسهولة من الأصوات العالية.","بتعصب بسهولة، وبلاقي صعوبة أرجع أركّز لما بتعصب.","بحس إن مفيش عندي سيطرة كويسة على حياتي اليومية.","بحس كأني بعاني من صدمة شخص تاني كنت بساعده.","بيشغلني جدًا إني أتابع مع ناجين معيّنين اتعاملت معاهم.","بحس بإرهاق من نظام الحياة اللي عايشه.","بلاقي صعوبة إني أشوف أي حاجة كويسة في الشغل اللي عملته.","بحس إني محبوس في شغلي.","بلاقي صعوبة في النوم.","بيجيلي صداع بيحصل بس وأنا في الشغل.","حصل تغيير في شهيتي للأكل.","ما بقيتش بستمتع بالحاجات اللي كنت بعملها للمتعة.","ماليش نفس أحضر جلسات الإشراف أو المتابعة.","بتجنب زمايلي.","بقيت أأجّل الحاجات وأسوّف أكتر.","ما بقيتش بستمتع بشغلي.","ماعنديش تعاطف مع العملاء أو الناس اللي بتعامل معاهم.","بحس ببعد أو عزلة عن الناس.","بحس بتبلّد في مشاعري، ومش بقدر أحس بمشاعر حب ناحية الناس المقربين مني.","بلاقي صعوبة إني أنام أو أكمل نومي.","بلاقي صعوبة في التركيز.","بكون في حالة تأهب شديد، كأني مستني حاجة تحصل في أي لحظة.","بحس بتوتر.","بحس كأن مستقبلي هيخلص أو هينتهي بشكل أو بآخر.","بيجيلي نوبات غضب."];
+var B=[
+[30,33,"مفيش علامات احتراق","مفيش عليك علامات إرهاق. حاول تلاحظ يومك شكله إيه وإنت بتعمل إيه حاليًا، عشان لو حصل أي تغيير بعد كده تلاحظه وتتعامل معاه بدري، قبل ما تبدأ تحس بالإرهاق.","مفيش علامات احتراق"],
+[34,62,"احتمال بسيط لخطر الاحتراق","إنت معرّض لخطر الاحتراق بنسبة بسيطة، إلا لو فيه ضغوط شديدة في حياتك أو شغلك. كلّم حد قريب منك بتثق فيه، أو حد مسؤول عنك في الشغل لو ده متاح، وشوفوا إيه أحسن طريقة تدعمك، عشان الإرهاق ما يزيدش.","معرّض بنسبة بسيطة لخطر الاحتراق"],
+[63,75,"احتمال مرتفع لخطر الإرهاق أو الاحتراق","احتمال الإرهاق أو الاحتراق عندك مرتفع. ابدأ تهتم بنفسك من دلوقتي: خد وقت للراحة، وقلّل من الضغط اللي تقدر تقلله، وكلّم حد بتثق فيه. ولو حسّيت إن الوضع بيزيد، اطلب مساعدة متخصص نفسي.","معرّض بنسبة مرتفعة لخطر الإرهاق أو الاحتراق"],
+[76,90,"احتراق","النتيجة بتشير لاحتراق. الأفضل تطلب مساعدة متخصصة، يعني تتكلم مع متخصص نفسي يساعدك تتعامل مع الضغط ده وتاخد بالك من نفسك.","احتراق"],
+[91,150,"صدمة غير مباشرة (صدمة ثانوية)","النتيجة بتشير لتأثر شديد بمواقف صعبة مرّ بيها غيرك، وده اللي بيسموه صدمة غير مباشرة. ننصحك تطلب مساعدة متخصصة وتكلّم متخصص نفسي في أقرب وقت، ولو بتتابع مع متخصص بالفعل كمّل معاه.","صدمة غير مباشرة"]];
+var f=document.getElementById('f');
+Q.forEach(function(t,k){
+  var id=k+1,d=document.createElement('div');d.className='q';d.id='q'+id;
+  var o=OP.map(function(l,i){return '<label><input type="radio" name="q'+id+'" value="'+(i+1)+'"><span>'+(i+1)+' – '+l+'</span></label>'}).join('');
+  d.innerHTML='<div class="t">'+id+'. '+t+'</div><div class="opts">'+o+'</div>';
+  f.appendChild(d);
+});
+function ans(i){var c=document.querySelector('input[name=q'+i+']:checked');return c?+c.value:null}
+function prog(){var n=0;for(var i=1;i<=30;i++)if(ans(i)!==null)n++;
+  document.getElementById('fill').style.width=(n/30*100)+'%';document.getElementById('cnt').textContent=n+' / 30'}
+f.addEventListener('change',function(e){var q=e.target.closest('.q');if(q)q.classList.remove('missing');prog()});
+document.getElementById('go').onclick=function(){
+  var miss=[];for(var i=1;i<=30;i++){if(ans(i)===null)miss.push(i)}
+  document.querySelectorAll('.q').forEach(function(q){q.classList.remove('missing')});
+  if(miss.length){miss.forEach(function(i){document.getElementById('q'+i).classList.add('missing')});
+    document.getElementById('err').textContent='لسه ما جاوبتش على '+miss.length+' عبارة. كمّل العبارات اللي متعلّم عليها بالأحمر.';
+    document.getElementById('q'+miss[0]).scrollIntoView({behavior:'smooth',block:'center'});return}
+  document.getElementById('err').textContent='';
+  var t=0;for(var j=1;j<=30;j++)t+=ans(j);
+  var b=B.filter(function(x){return t>=x[0]&&t<=x[1]})[0];
+  document.getElementById('tot').textContent=t+' / 150';
+  document.getElementById('mk').style.right=((t-30)/120*100)+'%';
+  document.getElementById('lv').textContent=b[2];document.getElementById('adv').textContent=b[3];
+  document.getElementById('tb').innerHTML=B.map(function(x){return '<tr'+(x===b?' class="on"':'')+'><td>'+x[0]+' – '+x[1]+'</td><td>'+x[4]+'</td></tr>'}).join('');
+  var c=document.getElementById('care');
+  if(ans(29)>=4){c.hidden=false;c.textContent='لاحظنا إن إحساسك إن مستقبلك هينتهي بيتكرر معاك. لو الإحساس ده بيقلقك أو وصل لأفكار إنك تأذي نفسك، كلّم حد موثوق أو متخصص نفسي النهارده، ومتستناش.'}else{c.hidden=true}
+  document.querySelector('.bar').hidden=true;f.hidden=true;document.getElementById('go').hidden=true;document.getElementById('intro').hidden=true;
+  document.getElementById('out').hidden=false;window.scrollTo({top:0,behavior:'smooth'});
+};
+document.getElementById('again').onclick=function(){
+  f.reset();document.querySelector('.bar').hidden=false;f.hidden=false;document.getElementById('go').hidden=false;
+  document.getElementById('intro').hidden=false;document.getElementById('out').hidden=true;prog();window.scrollTo(0,0)};
+</script>
+</body>
+</html>
